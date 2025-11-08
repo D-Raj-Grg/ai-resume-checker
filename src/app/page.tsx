@@ -13,7 +13,6 @@ const features = [
     Icon: Upload,
     name: "Easy Upload",
     description: "Drag and drop any PDF document or click to browse. Supports files up to 10MB.",
-    href: "#",
     cta: "Learn more",
     className: "col-span-1 lg:col-span-2",
     background: (
@@ -24,7 +23,6 @@ const features = [
     Icon: Brain,
     name: "AI-Powered Analysis",
     description: "Powered by Claude AI for intelligent, contextual understanding of your documents.",
-    href: "#",
     cta: "Learn more",
     className: "col-span-1",
     background: (
@@ -35,7 +33,6 @@ const features = [
     Icon: MessageSquare,
     name: "Natural Conversations",
     description: "Ask questions in plain English and get instant, accurate answers from your documents.",
-    href: "#",
     cta: "Learn more",
     className: "col-span-1",
     background: (
@@ -46,7 +43,6 @@ const features = [
     Icon: Sparkles,
     name: "Source Citations",
     description: "Every answer includes references to the exact sections and pages in your document.",
-    href: "#",
     cta: "Learn more",
     className: "col-span-1 lg:col-span-2",
     background: (
@@ -57,7 +53,6 @@ const features = [
     Icon: Zap,
     name: "Lightning Fast",
     description: "Get answers in seconds with real-time streaming responses. No waiting around.",
-    href: "#",
     cta: "Learn more",
     className: "col-span-1",
     background: (
@@ -170,7 +165,7 @@ export default function Home() {
             Perfect for every use case
           </h2>
           <p className="mt-6 text-lg leading-8 text-muted-foreground">
-            Whether you're a student, researcher, or professional, our AI assistant helps you
+            Whether you&apos;re a student, researcher, or professional, our AI assistant helps you
             work smarter with your documents.
           </p>
         </div>

@@ -26,7 +26,6 @@ export const BentoCard = ({
   background,
   Icon,
   description,
-  href,
   cta,
 }: {
   name: string;
@@ -34,7 +33,6 @@ export const BentoCard = ({
   background: ReactNode;
   Icon: React.ElementType;
   description: string;
-  href: string;
   cta: string;
 }) => (
   <div

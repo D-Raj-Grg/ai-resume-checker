@@ -337,16 +337,12 @@ const AIChatbot = () => {
     "submitted" | "streaming" | "ready" | "error"
   >("ready");
   const [messages, setMessages] = useState<MessageType[]>(initialMessages);
-  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(
-    null
-  );
 
   const selectedModelData = models.find((m) => m.id === model);
 
   const streamResponse = useCallback(
     async (messageId: string, content: string) => {
       setStatus("streaming");
-      setStreamingMessageId(messageId);
 
       const words = content.split(" ");
       let currentContent = "";
@@ -374,7 +370,6 @@ const AIChatbot = () => {
       }
 
       setStatus("ready");
-      setStreamingMessageId(null);
     },
     []
   );
