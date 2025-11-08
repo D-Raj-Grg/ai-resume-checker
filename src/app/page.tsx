@@ -1,6 +1,7 @@
 "use client";
 
 import { FileText, Sparkles, Zap, Brain, MessageSquare, Upload } from "lucide-react";
+import Link from "next/link";
 import AnimatedGradientText from "@/components/magicui/animated-gradient-text";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import { DotPattern } from "@/components/magicui/dot-pattern";
@@ -105,17 +106,19 @@ export default function Home() {
 
           {/* CTA Buttons */}
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <ShimmerButton
-              className="relative z-10"
-              background="linear-gradient(135deg, rgb(59, 130, 246), rgb(147, 51, 234))"
-              shimmerColor="#ffffff"
-            >
-              <Upload className="mr-2 h-4 w-4" />
-              Upload Your First PDF
-            </ShimmerButton>
-            <button className="text-sm font-semibold leading-6 text-foreground transition-colors hover:text-foreground/80">
+            <Link href="/ai-chatbot">
+              <ShimmerButton
+                className="relative z-10"
+                background="linear-gradient(135deg, rgb(59, 130, 246), rgb(147, 51, 234))"
+                shimmerColor="#ffffff"
+              >
+                <Upload className="mr-2 h-4 w-4" />
+                Try AI Chatbot
+              </ShimmerButton>
+            </Link>
+            <Link href="/ai-chatbot" className="text-sm font-semibold leading-6 text-foreground transition-colors hover:text-foreground/80">
               Watch Demo <span aria-hidden="true">→</span>
-            </button>
+            </Link>
           </div>
 
           {/* Stats */}
@@ -217,16 +220,18 @@ export default function Home() {
               No signup required.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <ShimmerButton
-                className="relative z-10"
-                background="rgba(255, 255, 255, 0.9)"
-                shimmerColor="rgba(59, 130, 246, 0.5)"
-              >
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  <Upload className="mr-2 inline-block h-4 w-4" />
-                  Start for Free
-                </span>
-              </ShimmerButton>
+              <Link href="/ai-chatbot">
+                <ShimmerButton
+                  className="relative z-10"
+                  background="rgba(255, 255, 255, 0.9)"
+                  shimmerColor="rgba(59, 130, 246, 0.5)"
+                >
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <Upload className="mr-2 inline-block h-4 w-4" />
+                    Start for Free
+                  </span>
+                </ShimmerButton>
+              </Link>
             </div>
           </div>
         </div>
