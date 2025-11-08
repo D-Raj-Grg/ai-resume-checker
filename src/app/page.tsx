@@ -6,6 +6,8 @@ import AnimatedGradientText from "@/components/magicui/animated-gradient-text";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import ShimmerButton from "@/components/magicui/shimmer-button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
 const features = [
@@ -71,8 +73,18 @@ export default function Home() {
         )}
       />
 
+      {/* Header with Theme Toggle */}
+      <header className="relative z-10">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+          <Link href="/" className="transition-opacity hover:opacity-80">
+            <Logo size="md" />
+          </Link>
+          <ThemeToggle />
+        </div>
+      </header>
+
       {/* Hero Section */}
-      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:pt-32">
+      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-12 sm:pb-32 lg:px-8 lg:pt-20">
         <div className="mx-auto max-w-4xl text-center">
           {/* Announcement Badge */}
           <div className="mb-8 flex justify-center">

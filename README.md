@@ -1,4 +1,24 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PDF Q&A AI Application
+
+An AI-powered application that allows users to upload PDF documents and ask natural language questions about the content, receiving intelligent, contextual answers powered by Claude AI.
+
+**Live Demo:** [https://pdf-qna-ai-saas.vercel.app/](https://pdf-qna-ai-saas.vercel.app/)
+
+## Features
+
+- Upload PDF documents (up to 10MB)
+- Ask questions in natural language
+- Get instant AI-powered answers with streaming responses
+- Conversation history with context-aware follow-ups
+- Responsive design for desktop and mobile
+- Dark/light mode support
+
+## Tech Stack
+
+- **Frontend:** Next.js 14+, React 18+, Tailwind CSS
+- **AI Integration:** Anthropic Claude API (claude-sonnet-4-20250514)
+- **PDF Processing:** pdf-parse
+- **Deployment:** Vercel
 
 ## Getting Started
 
@@ -29,8 +49,42 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```bash
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+```
+
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This application is deployed on Vercel: [https://pdf-qna-ai-saas.vercel.app/](https://pdf-qna-ai-saas.vercel.app/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To deploy your own instance:
+
+1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
+2. Import your repository to [Vercel](https://vercel.com/new)
+3. Add your `ANTHROPIC_API_KEY` environment variable in the Vercel project settings
+4. Deploy!
+
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Project Structure
+
+```
+├── src/
+│   ├── app/
+│   │   ├── api/           # API routes (upload, chat)
+│   │   ├── ai-chatbot/    # Chat interface
+│   │   └── page.tsx       # Homepage
+│   └── components/
+│       ├── ui/            # Reusable UI components
+│       └── providers/     # Context providers
+├── public/                # Static assets
+└── README.md
+```
+
+## License
+
+MIT

@@ -1,0 +1,28 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle with Gradient -->
+  <circle cx="20" cy="20" r="20" fill="url(#logoGradient)"/>
+
+  <!-- PDF Document Shape -->
+  <path d="M12 9C12 8.44772 12.4477 8 13 8H22.5L28 13.5V30C28 30.5523 27.5523 31 27 31H13C12.4477 31 12 30.5523 12 30V9Z" fill="white" opacity="0.95"/>
+
+  <!-- Folded Corner -->
+  <path d="M22.5 8V12.5C22.5 13.0523 22.9477 13.5 23.5 13.5H28L22.5 8Z" fill="white" opacity="0.7"/>
+
+  <!-- AI Sparkles -->
+  <path d="M20 16L20.8 18.2L23 19L20.8 19.8L20 22L19.2 19.8L17 19L19.2 18.2L20 16Z" fill="url(#sparkleGradient)"/>
+  <path d="M24 23L24.5 24.5L26 25L24.5 25.5L24 27L23.5 25.5L22 25L23.5 24.5L24 23Z" fill="url(#sparkleGradient)" opacity="0.8"/>
+  <path d="M16 24L16.5 25.5L18 26L16.5 26.5L16 28L15.5 26.5L14 26L15.5 25.5L16 24Z" fill="url(#sparkleGradient)" opacity="0.6"/>
+
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="50%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+    <linearGradient id="sparkleGradient" x1="14" y1="16" x2="26" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+</svg>
