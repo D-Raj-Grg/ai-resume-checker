@@ -7,6 +7,8 @@ import AnimatedGradientText from "@/components/magicui/animated-gradient-text";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import ShimmerButton from "@/components/magicui/shimmer-button";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
 const features = [
@@ -79,16 +81,15 @@ export default function Home() {
         <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
           {/* Logo */}
           <div className="flex lg:flex-1">
-            <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-purple-600">
-                <FileText className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-lg font-bold">PDF Q&A</span>
+            <Link href="/" className="-m-1.5 p-1.5 transition-opacity hover:opacity-80">
+              <Logo size="md" showText={false} className="lg:hidden" />
+              <Logo size="md" showText={true} className="hidden lg:flex" />
             </Link>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="flex lg:hidden">
+          {/* Mobile menu button and theme toggle */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <ThemeToggle />
             <button
               type="button"
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-foreground"
@@ -120,7 +121,8 @@ export default function Home() {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-4">
+            <ThemeToggle />
             <Link href="/ai-chatbot">
               <button className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 transition-opacity">
                 Try for Free →
