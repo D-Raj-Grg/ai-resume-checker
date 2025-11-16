@@ -85,8 +85,44 @@ type MessageType = {
   }[];
 };
 
-// Start with empty messages - users can start fresh conversations
-const initialMessages: MessageType[] = [];
+const initialMessages: MessageType[] = [
+  {
+    key: nanoid(),
+    from: "assistant",
+    versions: [
+      {
+        id: nanoid(),
+        content: `# Welcome to PDF Q&A Assistant! 👋
+
+I'm your AI-powered assistant for analyzing PDF documents. I can help you:
+
+## What I Can Do
+
+- 📄 **Answer Questions**: Ask me anything about your PDF documents and get instant, accurate answers
+- 🔍 **Find Information**: I can search through documents to find specific details, clauses, or sections
+- 📊 **Summarize Content**: Get quick summaries of long documents or specific sections
+- 💡 **Explain Concepts**: I can break down complex topics found in your documents
+- 🔗 **Provide Context**: I maintain conversation history, so you can ask follow-up questions
+
+## How to Get Started
+
+1. **Upload a PDF** (up to 10MB) using the file attachment button below
+2. **Ask your question** in plain English
+3. **Get instant answers** with source citations
+
+## Example Questions You Can Ask
+
+- "What are the main findings of this research?"
+- "Summarize the executive summary"
+- "What are the termination clauses in this contract?"
+- "Explain the methodology used in section 3"
+- "What are the key recommendations?"
+
+Try clicking on one of the suggestions below to see how I work, or upload your own PDF to get started!`,
+      },
+    ],
+  },
+];
 
 const models = [
   {
@@ -127,14 +163,22 @@ const models = [
 ];
 
 const suggestions = [
-  "What are the latest trends in AI?",
-  "How does machine learning work?",
-  "Explain quantum computing",
-  "Best practices for React development",
-  "Tell me about TypeScript benefits",
-  "How to optimize database queries?",
-  "What is the difference between SQL and NoSQL?",
-  "Explain cloud computing basics",
+  "How do I upload a PDF document?",
+  "What types of questions can you answer?",
+  "Can you summarize documents?",
+  "Do you support other file formats?",
+  "How accurate are your answers?",
+  "Can you help with legal documents?",
+  "Do you cite sources in your answers?",
+  "Is my document data secure?",
+];
+
+const mockResponses = [
+  "Great question! You can upload a PDF document by clicking the attachment button (paperclip icon) below this chat input. We support PDF files up to 10MB in size. Simply drag and drop your file or click to browse.",
+  "I can answer a wide variety of questions about your PDF documents! This includes summarizing content, finding specific information, explaining concepts, analyzing data, and much more. Just upload your document and ask in plain English.",
+  "Yes, I can definitely summarize documents! Just upload your PDF and ask me to 'summarize the document' or 'give me a summary of section X'. I'll provide a concise overview while maintaining the key points and important details.",
+  "Currently, I support PDF files exclusively. However, we're working on adding support for other formats like DOCX, TXT, and even images with OCR capabilities. Stay tuned for updates!",
+  "My answers are powered by Claude AI, which provides highly accurate and contextual responses. Each answer includes source citations so you can verify the information directly from your document. I analyze the full context to ensure accuracy.",
 ];
 
 const AIChatbot = () => {
@@ -150,9 +194,42 @@ const AIChatbot = () => {
 
   const selectedModelData = models.find((m) => m.id === model);
 
-  const sendMessage = useCallback(
-    async (content: string) => {
-      // Add user message
+  const streamResponse = useCallback(
+    async (messageId: string, content: string) => {
+      setStatus("streaming");
+
+      const words = content.split(" ");
+      let currentContent = "";
+
+      for (let i = 0; i < words.length; i++) {
+        currentContent += (i > 0 ? " " : "") + words[i];
+
+        setMessages((prev) =>
+          prev.map((msg) => {
+            if (msg.versions.some((v) => v.id === messageId)) {
+              return {
+                ...msg,
+                versions: msg.versions.map((v) =>
+                  v.id === messageId ? { ...v, content: currentContent } : v
+                ),
+              };
+            }
+            return msg;
+          })
+        );
+
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.random() * 100 + 50)
+        );
+      }
+
+      setStatus("ready");
+    },
+    []
+  );
+
+  const addUserMessage = useCallback(
+    (content: string) => {
       const userMessage: MessageType = {
         key: `user-${Date.now()}`,
         from: "user",
@@ -165,95 +242,28 @@ const AIChatbot = () => {
       };
 
       setMessages((prev) => [...prev, userMessage]);
-      setStatus("streaming");
 
-      // Create assistant message placeholder
-      const assistantMessageId = `assistant-${Date.now()}`;
-      const assistantMessage: MessageType = {
-        key: `assistant-${Date.now()}`,
-        from: "assistant",
-        versions: [
-          {
-            id: assistantMessageId,
-            content: "",
-          },
-        ],
-      };
+      setTimeout(() => {
+        const assistantMessageId = `assistant-${Date.now()}`;
+        const randomResponse =
+          mockResponses[Math.floor(Math.random() * mockResponses.length)];
 
-      setMessages((prev) => [...prev, assistantMessage]);
+        const assistantMessage: MessageType = {
+          key: `assistant-${Date.now()}`,
+          from: "assistant",
+          versions: [
+            {
+              id: assistantMessageId,
+              content: "",
+            },
+          ],
+        };
 
-      try {
-        // Prepare messages for API
-        const conversationMessages = [...messages, userMessage].map((msg) => ({
-          role: msg.from === "user" ? "user" : "assistant",
-          content: msg.versions[0].content,
-        }));
-
-        // Call API
-        const response = await fetch("/api/chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            messages: conversationMessages,
-            model,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to get response");
-        }
-
-        const reader = response.body?.getReader();
-        const decoder = new TextDecoder();
-
-        if (!reader) {
-          throw new Error("No response stream");
-        }
-
-        let accumulatedContent = "";
-
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done) break;
-
-          const chunk = decoder.decode(value, { stream: true });
-          accumulatedContent += chunk;
-
-          setMessages((prev) =>
-            prev.map((msg) => {
-              if (msg.versions.some((v) => v.id === assistantMessageId)) {
-                return {
-                  ...msg,
-                  versions: msg.versions.map((v) =>
-                    v.id === assistantMessageId
-                      ? { ...v, content: accumulatedContent }
-                      : v
-                  ),
-                };
-              }
-              return msg;
-            })
-          );
-        }
-
-        setStatus("ready");
-      } catch (error) {
-        console.error("Error sending message:", error);
-        setStatus("error");
-        toast.error("Failed to send message", {
-          description: "Please try again",
-        });
-
-        // Remove the failed assistant message
-        setMessages((prev) =>
-          prev.filter((msg) => msg.key !== assistantMessage.key)
-        );
-      }
+        setMessages((prev) => [...prev, assistantMessage]);
+        streamResponse(assistantMessageId, randomResponse);
+      }, 500);
     },
-    [messages, model]
+    [streamResponse]
   );
 
   const handleSubmit = (message: PromptInputMessage) => {
@@ -272,19 +282,19 @@ const AIChatbot = () => {
       });
     }
 
-    sendMessage(message.text || "Sent with attachments");
+    addUserMessage(message.text || "Sent with attachments");
     setText("");
   };
 
   const handleSuggestionClick = (suggestion: string) => {
     setStatus("submitted");
-    sendMessage(suggestion);
+    addUserMessage(suggestion);
   };
 
   return (
     <div className="relative flex size-full flex-col divide-y overflow-hidden">
       <Conversation>
-        <ConversationContent className="mx-auto w-full max-w-4xl">
+        <ConversationContent>
           {messages.map(({ versions, ...message }) => (
             <MessageBranch defaultBranch={0} key={message.key}>
               <MessageBranchContent>
@@ -335,7 +345,7 @@ const AIChatbot = () => {
         </ConversationContent>
         <ConversationScrollButton />
       </Conversation>
-      <div className="mx-auto grid w-full max-w-4xl shrink-0 gap-4 pt-4">
+      <div className="grid shrink-0 gap-4 pt-4">
         <Suggestions className="px-4">
           {suggestions.map((suggestion) => (
             <Suggestion
